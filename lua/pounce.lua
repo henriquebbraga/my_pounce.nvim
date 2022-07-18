@@ -195,7 +195,7 @@ function M.pounce(opts)
     if nr == 32 then
       if not leader_press then
         leader_press = true
-        break
+        nr = 0
       else
         -- nr = " "
       end
@@ -206,7 +206,8 @@ function M.pounce(opts)
       end
     end
 
-    if nr == 27 then -- escape
+    if nr == 0 then
+    elseif nr == 27 then -- escape
       break
     elseif nr == "\x80kb" then -- backspace
       input = input:sub(1, -2)
