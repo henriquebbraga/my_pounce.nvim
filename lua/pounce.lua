@@ -54,6 +54,7 @@ function M.pounce(opts)
   local ns = vim.api.nvim_create_namespace ""
   local input = opts and opts.do_repeat and last_input or ""
   local hl_prio = 65533
+  local leader_press = false
 
   while true do
     local start_clock = os.clock()
@@ -189,6 +190,20 @@ function M.pounce(opts)
     local ok, nr = pcall(vim.fn.getchar)
     if not ok then
       break
+    end
+
+    if nr == 32 then
+      if not leader_press then
+        leader_press = true
+        break
+      else
+        -- nr = " "
+      end
+    elseif leader_press then
+      leader_press = false
+      if nr >= 97 and nr <= 122 then
+        nr = nr - 32
+      end
     end
 
     if nr == 27 then -- escape
